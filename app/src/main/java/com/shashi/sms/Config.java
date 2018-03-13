@@ -1,4 +1,4 @@
-package thegenuinegourav.email;
+package com.shashi.sms;
 
 public class Config {
     public static final String EMAIL ="shashi.testing797@gmail.com"; //your-gmail-username

@@ -1,4 +1,4 @@
-package thegenuinegourav.email;
+package com.shashi.sms;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

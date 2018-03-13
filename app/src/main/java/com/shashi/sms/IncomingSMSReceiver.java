@@ -1,4 +1,4 @@
-package thegenuinegourav.email;
+package com.shashi.sms;
 
 import android.app.Notification;
 import android.app.NotificationManager;

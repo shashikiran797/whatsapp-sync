@@ -1,4 +1,4 @@
-package thegenuinegourav.email;
+package com.shashi.sms;
 
 /**
  * Created by shashikiranms on 13/03/18
