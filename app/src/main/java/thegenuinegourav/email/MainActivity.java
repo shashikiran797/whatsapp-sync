@@ -1,5 +1,9 @@
 package thegenuinegourav.email;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.EditText;
 
 
@@ -20,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextEmail;
     private EditText editTextSubject;
     private EditText editTextMessage;
-
+    static int SMS_PERMISSION_CODE = 1;
     //Send button
     private Button buttonSend;
 
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Adding click listener
         buttonSend.setOnClickListener(this);
+        if (!isSmsPermissionGranted()) {
+            requestReadAndSendSmsPermission();
+        }
     }
 
 
@@ -57,5 +64,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         sendEmail();
+    }
+
+
+    /**
+     * Check if we have SMS permission
+     */
+    public boolean isSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Request runtime SMS permission
+     */
+    private void requestReadAndSendSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
+            // You may display a non-blocking explanation here, read more in the documentation:
+            // https://developer.android.com/training/permissions/requesting.html
+        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
     }
 }
