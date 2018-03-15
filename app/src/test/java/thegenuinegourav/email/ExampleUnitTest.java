@@ -1,4 +1,4 @@
-package com.shashi.sms;
+package com.boatman.sync;
 
 import org.junit.Test;
 

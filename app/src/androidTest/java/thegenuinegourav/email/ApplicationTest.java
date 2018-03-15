@@ -1,4 +1,4 @@
-package com.shashi.sms;
+package com.boatman.sync;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

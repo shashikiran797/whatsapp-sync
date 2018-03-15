@@ -1,4 +1,4 @@
-package com.shashi.sms;
+package com.boatman.sync;
 
 /**
  * Created by shashikiranms on 13/03/18
@@ -18,7 +18,7 @@ public class BootReceiveService extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive: Boot completed");
 
-        Intent startServiceIntent = new Intent(context, IncomingSMSReceiver.class);
-        context.startService(startServiceIntent);
+//        Intent startServiceIntent = new Intent(context, IncomingSMSReceiver.class);
+//        context.startService(startServiceIntent);
     }
 }
