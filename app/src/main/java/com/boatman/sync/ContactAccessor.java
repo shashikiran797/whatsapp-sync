@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 
@@ -33,26 +34,32 @@ public class ContactAccessor {
             // You can also read RawContacts.CONTACT_ID to read the
             // ContactsContract.Contacts table or any of the other related ones.
             System.out.println("============");
-            String temp = c.getString(contactNameColumn) + ":" +
-                    mergeContact(context, c.getString(idColumn));
+            String temp = c.getString(contactNameColumn);
             contactList.add(temp);
         }
         c.close();
+
         return contactList;
+
     }
 
-    public static String mergeContact(Context context, String contactId) {
+    public static ArrayList<String> mergeContact(Context context, ArrayList<String> contactId) {
         ContentResolver cr = context.getContentResolver();
         String number = "";
+        String[] temp = new String[contactId.size()];
+        temp = contactId.toArray(temp);
+        ArrayList<String> allNumbers = new ArrayList<String>();
+        String contactIdString = TextUtils.join(",", temp);
+
             //
             //  Get all phone numbers.
             //
         Cursor phones = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " in ( " + contactIdString + ")", null, null);
         while (phones.moveToNext()) {
             number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             System.out.println("********" + number);
-            break;
+            allNumbers.add(number);
 //            int type = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 //            switch (type) {
 //                case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
@@ -67,7 +74,7 @@ public class ContactAccessor {
 //            }
         }
         phones.close();
-        return number;
+        return allNumbers;
 
     }
 }
