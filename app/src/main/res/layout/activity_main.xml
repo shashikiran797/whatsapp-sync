@@ -6,13 +6,22 @@
     android:orientation="vertical"
     tools:context="com.boatman.sync.MainActivity">
 
+    <TextView
+        android:id="@+id/userAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="email_id">
 
+    </TextView>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
 
         <EditText
             android:id="@+id/urlEditText"

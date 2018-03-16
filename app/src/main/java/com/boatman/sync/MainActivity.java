@@ -1,6 +1,9 @@
 package com.boatman.sync;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText urlEditText;
     private TextView message;
     private ProgressBar progressBar;
+    private TextView userAccount;
     String[] temp = new String[1];
 
     @Override
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         urlEditText = (EditText) findViewById(R.id.urlEditText);
         message = findViewById(R.id.message);
         progressBar = findViewById(R.id.progressbar);
+        userAccount = findViewById(R.id.userAccount);
         urlEditText.setText(LocalStorageService.getString(this, "url"));
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        String userEmailId = getEmiailID(this.getApplicationContext());
+        userAccount.setText(userEmailId);
         progressBar.setVisibility(View.VISIBLE);
         contactsList = ContactAccessor.getContacts(this, "com.whatsapp");
         message.setText("Total Whatsapp contacts found:" + contactsList.size());
@@ -133,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
             newArray.put(str);
         }
         try {
+            requestObj.put("email", userAccount.getText().toString());
             requestObj.put("contacts", newArray);
         } catch (JSONException e) {
             showToast("json exception");
@@ -141,5 +149,29 @@ public class MainActivity extends AppCompatActivity {
         HttpService.postCall(this, url, requestObj,
                 onSuccess, onFailure);
 
+    }
+
+
+
+
+    private String getEmiailID(Context context) {
+        AccountManager accountManager = AccountManager.get(context);
+        Account account = getAccount(accountManager);
+        if (account == null) {
+            return null;
+        } else {
+            return account.name;
+        }
+    }
+
+    private static Account getAccount(AccountManager accountManager) {
+        Account[] accounts = accountManager.getAccountsByType("com.google");
+        Account account;
+        if (accounts.length > 0) {
+            account = accounts[0];
+        } else {
+            account = null;
+        }
+        return account;
     }
 }
